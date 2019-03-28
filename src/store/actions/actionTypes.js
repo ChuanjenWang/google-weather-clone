@@ -1,0 +1,1 @@
+export const SERACH_START = 'SEARCH_START';
