@@ -9,3 +9,10 @@
 .App-WeatherBox {
   margin-top: 40px;
 }
+
+.hide {
+  opacity: 0.2;
+  position: absolute;
+  top: 399px;
+  left: 0px;
+}

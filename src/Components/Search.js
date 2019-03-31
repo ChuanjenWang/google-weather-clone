@@ -87,7 +87,16 @@ const SuggestionPanel = styled.div`
 position: relative;
 width: 630px;
 margin: 0 auto;
+${props => props.status === 'open' ? 
+ `
+ opacity: 1;
 
+ `
+ : 
+ `
+ opacity: 0;
+ `
+}
 `;
 
 const SuggestionPanelInner = styled.div`
@@ -115,11 +124,7 @@ padding-buttom: 4px;
         padding: 0;
     }
  }
-${props => props.status === 'open' ? 
- `display: block`
- : 
- `display: none`
-}
+
 `;
 
 const LiWraper = styled.div`
@@ -154,7 +159,8 @@ class Search extends Component {
             extend: false,
             selectedLi: -1
         }
-        this.dispatchChangedHandler = _.debounce(this.props.onFetchSuggestions, 300);
+        this.dispatchChangedHandler = _.debounce(this.props.onFetchSuggestions, 500);
+        //this.onClickHandler = this.onClickHandler.bind(this);
     }
     
     onChangedHandler = (e) => {
@@ -166,7 +172,9 @@ class Search extends Component {
 
     onFocusHandler = (e) => {
         //this.props.onFocus();
-        this.setState({ extend: true });
+        if(this.props.suggestions.length > 0) {
+            this.setState({ extend: true });
+        }
     }
 
     onBlurHandler = (e) => {
@@ -175,35 +183,87 @@ class Search extends Component {
     }
 
     onMouseoverHandler = (index) => {
-        this.setState({selectedLi : index});
+        if (this.state.extend) {
+            this.setState({
+                selectedLi : index,
+                value: this.props.suggestions[index].cityName + ', ' + 
+                       this.props.suggestions[index].country
+            });
+        }
+    }
+
+    onClickHandler = (e) => {
+        let cityName;
+        let key = e.currentTarget.getAttribute('data-param');
+        //console.log('key:' + key);
+        //console.log('this.state.selectedLi:' + this.state.selectedLi);
+              
+        if(this.state.selectedLi.toString() === key) {
+        let tmpCityName = this.props.suggestions[this.state.selectedLi];
+             
+        cityName = tmpCityName.cityName + ', ' + tmpCityName.countryCode;
+         
+        this.props.onFetchWeathers(cityName);
+        this.setState({ extend: false});
+        }
     }
 
     onKeyDownHandler = (e) => {
+        //console.log('e.target.value:' + e.target.value);
+        //console.log('this.props.suggestions.length:' + this.props.suggestions.length);
+        if(e.target.value !== this.props.value && this.props.suggestions.length > 0) {
+            this.setState({ extend: true});
+        }
         if (e.which === 40) {    
             if(this.state.selectedLi <=3) {
                 this.setState(prevState => ({
-                    selectedLi : prevState.selectedLi + 1
+                    selectedLi : prevState.selectedLi + 1,
+                    value: this.props.suggestions[prevState.selectedLi + 1].countryCode === 'TW' ? 
+                           this.props.suggestions[prevState.selectedLi + 1].cityName :
+                           this.props.suggestions[prevState.selectedLi + 1].cityName + ', ' +
+                           this.props.suggestions[prevState.selectedLi + 1].countryCode
                 }));
             } else {
-                this.setState({selectedLi : 0});
+                this.setState({
+                    selectedLi : 0,
+                    value: this.props.suggestions[0].cityName
+                });
             }
         } else if (e.which === 38) {
             if(this.state.selectedLi >=1) {
                 this.setState(prevState => ({
-                    selectedLi : prevState.selectedLi - 1
+                    selectedLi : prevState.selectedLi - 1,
+                    value: this.props.suggestions[prevState.selectedLi - 1].cityName
                 }));
             } else {
-                this.setState({selectedLi : 4});
+                this.setState({
+                    selectedLi : 4,
+                    value: this.props.suggestions[4].cityName
+                });
             }
         }
-    }
+        if(e.which === 13 || e.keyCode === 13) {
+            let cityName = e.target.value;
 
-    onSearchEnterHandler = () => {
-        
+            if (this.state.selectedLi !== -1) {
+                let tmpCityName = this.props.suggestions[this.state.selectedLi];
+                
+                cityName = tmpCityName.cityName + ', ' + tmpCityName.countryCode;
+                
+                this.props.onFetchWeathers(cityName);
+                this.setState({ extend: false});
+            }
+            else if (cityName) {
+                this.props.onFetchWeathers(cityName);
+                this.setState({ extend: false});
+            }
+            
+        }
     }
-
+  
     componentDidMount() {
         this.nv.addEventListener('keydown', this.onKeyDownHandler);
+        //this.setState({ extend: true });
     }
 
     componentWillUnmount() {
@@ -211,15 +271,17 @@ class Search extends Component {
     }
 
     render() {    
-        const autoList = this.state.extend ? this.props.suggestions : null;
-        const autoPanel = autoList ? autoList.map((item, key)=> {
+        //console.log('this.props.suggestions:' + this.props.suggestions);
+        //const autoList = this.props.suggestions.length ? this.props.suggestions : null;
+        //console.log('this.props.suggestions.length:' + this.props.suggestions.length);
+        const autoPanel = this.props.suggestions.length ? this.props.suggestions.map((item, key)=> {
             return (
-                <li key={key} >
+                <li key={key} onClick={(e) => this.onClickHandler(e)} data-param={key}>
                     <LiWraper selw={ this.state.selectedLi === key ? 't': 'f'} 
                               onMouseOver={(this.onMouseoverHandler.bind(this, key))}
                               index={key}>
                     <SuggestionPanelInnerContainer index={key}>
-                        <span>{item}
+                        <span>{item.cityName + ', ' + item.country}
                         </span>
                     </SuggestionPanelInnerContainer>
                     </LiWraper>
@@ -235,7 +297,8 @@ class Search extends Component {
                                      onChange={this.onChangedHandler}
                                      onFocus={this.onFocusHandler} 
                                      onBlur={this.onBlurHandler}
-                                     ref={elem => this.nv = elem}/>
+                                     ref={elem => this.nv = elem}
+                                     />  
                     </WraperText>
                     <WraperIcon>
                         <WraperIconInner>
@@ -248,8 +311,8 @@ class Search extends Component {
                         </WraperIconInner>
                     </WraperIcon>
                 </Wraper>
-                <SuggestionPanel>
-                    <SuggestionPanelInner status={this.state.extend ? 'open' : 'close'}>
+                <SuggestionPanel status={this.state.extend ? 'open' : 'close'}>
+                    <SuggestionPanelInner status={this.state.extend ? 'open' : 'close'} >
                         <div></div>
                         <ul>{autoPanel}</ul>
                     </SuggestionPanelInner>
@@ -261,15 +324,16 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        query: state.query,
-        suggestions: state.suggestions,
-        showSuggestions: state.showSuggestions
+        query: state.search.query,
+        suggestions: state.search.suggestions,
+        showSuggestions: state.search.showSuggestions
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchSuggestions: (term) => dispatch(actions.fetchSuggestions(term))
+        onFetchSuggestions: (term) => dispatch(actions.fetchSuggestions(term)),
+        onFetchWeathers: (term) => dispatch(actions.fetchWeathers(term))
     }
 }
 

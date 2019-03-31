@@ -17,10 +17,10 @@ font-weight: 600;
 const Details = styled.div`
 `;
 
-const WeatherInfo = () => {
+const WeatherInfo = (props) => {
     return (
         <Wraper>
-            <CityTitle>San Jose, CA, USA</CityTitle>
+            <CityTitle>{props.city}</CityTitle>
             <Details>
                 <div>Thursday 10:00 AM</div>
                 <div>Mostly Sunny</div>

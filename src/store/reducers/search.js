@@ -2,7 +2,13 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     query: '',
-    suggestions: ['Taipei, Tanwan', 'Taoyuan, Taiwan', 'Hsinchu, Taiwan', 'Taichung, Taiwan', 'Kaohsiung, Taiwan'],
+    suggestions: [ 
+        { cityName: 'Taipei', country: 'Taiwan', countryCode: 'TW', cityCode: '1668341', state: ''},
+        { cityName: 'Taoyuan', country: 'Taiwan', countryCode: 'TW', cityCode: '6696918', state: ''},
+        { cityName: 'Hsinchu', country: 'Taiwan', countryCode: 'TW', cityCode: '1675151', state: ''},
+        { cityName: 'Taichung', country: 'Taiwan', countryCode: 'TW', cityCode: '1668399', state: ''},
+        { cityName: 'Kaohsiung', country: 'Taiwan', countryCode: 'TW', cityCode: '1673820', state: ''}
+        ],
     fetching: false,
     showSuggestions: false
 };

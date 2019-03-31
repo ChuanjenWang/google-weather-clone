@@ -7,11 +7,17 @@ export const fetchSuggestions = (term) => {
         const FETCH_URL = `http://api.geonames.org/searchJSON?q=${term}&maxRows=5&username=spencerwang`;
         axios.get(FETCH_URL)
             .then((response)=> {
-                console.log(response);
+                //console.log(response);
                 const citys = response.data.geonames.map((item) => {
-                    return item.name + ', ' + item.countryName;
+                    return {
+                        cityName: item.name, 
+                        country: item.countryName, 
+                        countryCode: item.countryCode, 
+                        cityCode: item.geonameId, 
+                        state: item.adminCode1
+                    }
                 });
-                console.log('payload:' + citys);
+                //console.log('payload:' + citys);
                 dispatch(fetchSuggestionsSuccess(citys));
             })
             .catch((err) => {

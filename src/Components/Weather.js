@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import WeatherInfo from './WeatherInfo';
+
+
 
 const Wraper = styled.div`
 width: 632px;
@@ -24,11 +27,18 @@ class Weather extends Component {
             <div>
                 <Wraper>
                     <WrpaerInner>
-                        <WeatherInfo/>
+                        <WeatherInfo city={this.props.city}/>
                     </WrpaerInner>
                 </Wraper>
             </div>
         )
     }
 }
-export default Weather;
+
+const mapStateToProps = (state) => {
+    return {
+        city: state.weather.city
+    }
+}
+
+export default connect(mapStateToProps)(Weather);
