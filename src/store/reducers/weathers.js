@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
             ...state,
             city: action.payload.city,
             country: action.payload.country,
-            description: action.payload.description,
+            weathers: action.payload.list,
         }
         default:
         return state;

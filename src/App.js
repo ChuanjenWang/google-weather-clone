@@ -5,16 +5,14 @@ import Search from './Components/Search';
 import Weather from './Components/Weather';
 
 class App extends Component {
-  
   render() {
-    
     return (
       <div className="App">
         <div className="App-SearchBox">
-            <Search />
+            <Search /> 
         </div>
         <div className="App-WeatherBox">
-            <Weather />
+            <Weather /> 
         </div>
       </div>
     );

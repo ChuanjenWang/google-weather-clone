@@ -8,9 +8,8 @@ export const fetchWeathers = city => {
             .then(response => {
                 if (response.data.cod === '200') {
                     const payload = {
-                        city: response.data.city.country === 'TW' ? response.data.city.name 
-                        :
-                        response.data.city.name + ', ' + response.data.city.country,
+                        city: formatDisplayCityName(response.data.city),
+                        list: response.data.list
                     } 
                     dispatch(fetchWeathersSuccess(payload));
                 } else if(response.cod === '404') {
@@ -27,5 +26,15 @@ export const fetchWeathersSuccess = payload => {
         type: actionTypes.FETCH_WEATHERS_SUCCESS,
         payload: payload
     }
+}
+
+const formatDisplayCityName = (city) => {
+    let res;
+    if (city.country === 'TW') {
+        res = city.name ;
+    } else {
+        res = city.name + ', ' + city.country;
+    }
+    return res;
 }
 

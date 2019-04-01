@@ -22,8 +22,8 @@ const WeatherInfo = (props) => {
         <Wraper>
             <CityTitle>{props.city}</CityTitle>
             <Details>
-                <div>Thursday 10:00 AM</div>
-                <div>Mostly Sunny</div>
+                <div>{props.displayTime}</div>
+                <div>{props.description}</div>
             </Details>
         </Wraper>
     )
