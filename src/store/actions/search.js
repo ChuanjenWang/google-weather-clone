@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 import * as actionTypes from '../actions/actionTypes';
+import { CITY_API } from '../../Apis/index';
 
 export const fetchSuggestions = (term) => {
     return dispatch => {
-        const FETCH_URL = `http://api.geonames.org/searchJSON?q=${term}&maxRows=5&username=spencerwang`;
+        const FETCH_URL = CITY_API(term); 
         axios.get(FETCH_URL)
             .then((response)=> {
                 //console.log(response);
@@ -14,7 +15,9 @@ export const fetchSuggestions = (term) => {
                         country: item.countryName, 
                         countryCode: item.countryCode, 
                         cityCode: item.geonameId, 
-                        state: item.adminCode1
+                        state: item.adminCode1,
+                        lng: item.lng,
+                        lat: item.lat,
                     }
                 });
                 //console.log('payload:' + citys);

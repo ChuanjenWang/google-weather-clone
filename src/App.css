@@ -16,3 +16,8 @@
   top: 399px;
   left: 0px;
 }
+
+.hint {
+  text-align: left;
+  font-size: 9px;
+}

@@ -6,3 +6,7 @@ export {
 export {
     fetchWeathers
 } from './weathers';
+
+export {
+    fetchTargetCityLocalTime
+} from './geo';

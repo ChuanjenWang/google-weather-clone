@@ -193,17 +193,15 @@ class Search extends Component {
     }
 
     onClickHandler = (e) => {
-        let cityName;
         let key = e.currentTarget.getAttribute('data-param');
         //console.log('key:' + key);
         //console.log('this.state.selectedLi:' + this.state.selectedLi);
               
         if(this.state.selectedLi.toString() === key) {
-        let tmpCityName = this.props.suggestions[this.state.selectedLi];
-             
-        cityName = tmpCityName.cityName + ', ' + tmpCityName.countryCode;
-         
-        this.props.onFetchWeathers(cityName);
+        let tmpCity = this.props.suggestions[this.state.selectedLi];
+              
+        this.props.onFetchWeathers(tmpCity.cityCode);
+        this.props.onFetchTimeZone(tmpCity.lat, tmpCity.lng);
         this.setState({ extend: false});
         }
     }
@@ -246,15 +244,15 @@ class Search extends Component {
             let cityName = e.target.value;
 
             if (this.state.selectedLi !== -1) {
-                let tmpCityName = this.props.suggestions[this.state.selectedLi];
+                let tmpCity = this.props.suggestions[this.state.selectedLi];
                 
-                cityName = tmpCityName.cityName + ', ' + tmpCityName.countryCode;
-                
-                this.props.onFetchWeathers(cityName);
+                this.props.onFetchWeathers(tmpCity.cityCode);
+                this.props.onFetchTimeZone(tmpCity.lat, tmpCity.lng);
                 this.setState({ extend: false});
             }
             else if (cityName) {
-                this.props.onFetchWeathers(cityName);
+                this.props.onFetchWeathers(cityName, 'name');
+                this.props.onFetchTimeZone(this.props.lat, this.props.lng);
                 this.setState({ extend: false});
             }
             
@@ -326,14 +324,17 @@ const mapStateToProps = (state) => {
     return {
         query: state.search.query,
         suggestions: state.search.suggestions,
-        showSuggestions: state.search.showSuggestions
+        showSuggestions: state.search.showSuggestions,
+        lat: state.weather.lat,
+        lng: state.weather.lng
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchSuggestions: (term) => dispatch(actions.fetchSuggestions(term)),
-        onFetchWeathers: (term) => dispatch(actions.fetchWeathers(term))
+        onFetchWeathers: (param, type) => dispatch(actions.fetchWeathers(param, type)),
+        onFetchTimeZone: (lat, lng) => dispatch(actions.fetchTargetCityLocalTime(lat, lng))
     }
 }
 

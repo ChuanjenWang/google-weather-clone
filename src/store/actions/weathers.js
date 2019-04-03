@@ -1,9 +1,11 @@
 import axios from 'axios'; 
 import * as actionTypes from './actionTypes';
+import { WEATHER_API } from '../../Apis/index';
 
-export const fetchWeathers = city => {
+export const fetchWeathers = (param, type)  => {
     return dispatch => {
-        const API_URL = `http://api.openweathermap.org/data/2.5/forecast?&appid=ec91377281d5045796aa304831387348&q=${city}`;
+        const API_URL = WEATHER_API(param, type);
+
         axios.get(API_URL)
             .then(response => {
                 if (response.data.cod === '200') {
