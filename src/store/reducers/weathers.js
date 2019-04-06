@@ -6,7 +6,8 @@ const initialState = {
     lng: '',
     lat: '',
     currentDateTime: '',
-    weathers: []
+    weathers: [],
+    weathersDaily: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +24,11 @@ const reducer = (state = initialState, action) => {
             lat: action.payload.lat,
             lng: action.payload.lng,
             weathers: action.payload.list,
+        }
+        case actionTypes.FETCH_WEATHERS_DAILY_SUCCESS: 
+        return {
+            ...state,
+            weathersDaily: action.payload
         }
         default:
         return state;

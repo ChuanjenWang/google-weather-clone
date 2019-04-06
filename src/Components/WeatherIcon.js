@@ -4,26 +4,27 @@ import styled from 'styled-components';
 import { getImageFromWeatherCode } from '../Util/weather';
 
 const Wraper = styled.div`
-margin-top: -5px;
-width: 64px;
-height: 64px;
-border: none;
+${props => props.marginTop ? `margin-top: ${props.marginTop}px` : null}
 `;
 const IconImg = styled.img`
-width: 64px;
-height: 64px;
+width: 48px;
+height: 48px;
+${props => props.width ? `width: ${props.width}px` : null}
+${props => props.height ? `height: ${props.height}px` : null} 
 `;
 
 const WeatherIcon = (props) => {
     const iconName = getImageFromWeatherCode(props.code);
-    const icon =  iconName ? require('../images/' + iconName): null;//iconPath ? require(iconPath) : null;
-  
+    const icon =  iconName ? require('../images/' + iconName): null;
     return (
-        <Wraper>
-            <IconImg src={icon} alt={props.des}  />
+        <Wraper marginTop={props.marginTop}>
+            <IconImg src={icon} 
+                     alt={props.des} 
+                     width={props.width} 
+                     height={props.height}
+                    />
         </Wraper>
     )
-    // require('../images/partly_cloudy.png')
 }
 
 export default WeatherIcon;

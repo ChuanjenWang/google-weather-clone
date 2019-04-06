@@ -47,9 +47,9 @@ export const getWeekandTime = (dateText) => {
 }
 
 export const convertDegrees = (unit, kelvin) => {
-    console.log('kelvin:' + kelvin);
-    console.log('c:' + Math.floor(kelvin -  273.15));
-    console.log('f:' + Math.ceil(Math.floor(kelvin - 273.15) * 1.8 + 32));
+    //console.log('kelvin:' + kelvin);
+    //console.log('c:' + Math.floor(kelvin -  273.15));
+    //onsole.log('f:' + Math.ceil(Math.floor(kelvin - 273.15) * 1.8 + 32));
     return unit === 'C' ? Math.floor(kelvin -  273.15) : Math.ceil(Math.floor(kelvin - 273.15) * 1.8 + 32);
 }
 
@@ -122,29 +122,110 @@ export const getImageFromWeatherCode = (code) => {
     return iconName;
 }
 
-export const getWeekName = (day) => {
+export const getWeekName = (day, type) => {
     switch(day) {
         case 0:
-        return 'Sunday';
+        return type === 's' ? 'Sun' : 'Sunday';
         case 1:
-        return 'Monday';
+        return type === 's' ? 'Mon' : 'Monday';
         case 2:
-        return 'Tuesday';   
+        return type === 's' ? 'Tue' : 'Tuesday';   
         case 3:
-        return 'Wednesday';
+        return type === 's' ? 'Wed' : 'Wednesday';
         case 4:
-        return 'Thursday';
+        return type === 's' ? 'Thu' : 'Thursday';
         case 5:
-        return 'Friday';
+        return type === 's' ? 'Fri' : 'Friday';
         case 6:
-        return 'Saturday';
+        return type === 's' ? 'Sat' : 'Saturday';
         default:
-        return 'Sunday';
+        return type === 's' ? 'Sun' : 'Sunday';
     }
 } 
 
+export const convertListToEveryDay = (list, gmtOffset) =>  {
+    let dayList = [];
+    let obj = {
+        dt: null,
+        description: '',
+        code: '',
+        highDeg: '',
+        lowDeg: '',
+        cloud: '',
+        humidity: '',
+        wind: '',
+        week: '',
+    }
+    console.log(list.length);
+
+    list.forEach((el, index) => {
+        const dt = new Date(el.dt * 1000);
+        
+        if (obj.dt === null) obj.dt = dt;
+
+        //const pointerMonth = obj.dt.getMonth();
+        const pointerDay = obj.dt.getDate();
+        //const itemMonth = dt.getMonth();
+        const itemDay = dt.getDate();
+        //console.log('pointerMonth:' + pointerMonth);
+        //console.log('itemMonth:' + itemMonth);
+        //console.log('pointerDay:' + pointerDay);
+        //console.log('itemDay:' + itemDay);
+        if (pointerDay === itemDay) {
+            obj.date = dt;
+            obj.description = el.weather.description;
+            obj.code = el.weather.id;
+            obj.highDeg = el.main.temp_max;
+            obj.lowDeg = el.main.temp_min;
+            obj.cloud = el.clouds.all;
+            obj.humidity = el.main.humidity;
+            obj.wind = el.wind.speed;
+            obj.week = getWeekName(dt.getDay(), 's');
+        } else {
+            dayList.push(obj);
+            obj = {
+                dt: dt,
+                description: el.weather.description,
+                code: el.weather.id,
+                highDeg: el.main.temp_max,
+                lowDeg: '',
+                cloud: '',
+                humidity: '',
+                wind: '',
+                week: getWeekName(dt.getDay(), 's'),
+            };
+            //obj.date = dt;
+            //obj.description = el.weather.description;
+            //obj.code = el.weather.id;
+            //obj.highDeg = el.main.temp_max;
+            //obj.lowDeg = el.main.temp_min;
+            //obj.cloud = el.clouds.all;
+            //obj.humidity = el.main.humidity;
+            //obj.wind = el.wind.speed;
+            //obj.week = getWeekName(dt.getDay(), 's');
+        }   
+    });
+
+    dayList.push(obj);
+
+    return dayList;
+}
+
+export const formatWeathersDaily = (list) => {
+    if(!list.length) return [];
+    const formatList = list.map((item) => {
+        const week = getWeekName(item.weekIndex,'s');
+        return {
+            ...item,
+            week
+        }
+    }); 
+
+    return formatList.slice(0, 8);
+}
+
 const getFormatTimeFromSec = (date) => {
     const hours = date.getHours(date);
-    return hours <=12 ? `${hours}:00 AM` : `${hours - 12}:00 PM` 
+    return hours <12 ? `${hours}:00 AM` : hours === 12 ? `12:00 PM` : `${hours - 12}:00 PM` 
 }
 

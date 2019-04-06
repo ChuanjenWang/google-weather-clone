@@ -15,3 +15,11 @@ export const WEATHER_API = (param, type='code') => {
     `http://api.openweathermap.org/data/2.5/forecast?id=${param}&appid=${process.env.REACT_APP_WEATHER}`
     ;
 } 
+
+//WEATHER API 
+export const WEATHER_DAILY_API = (param, type = 'code') => {
+    return type === 'name' ? `https://openweathermap.org/data/2.5/forecast/daily/n?appid=${process.env.REACT_APP_WSUPER}&q=${param}&units=metric&cnt=8`
+    :
+    `https://openweathermap.org/data/2.5/forecast/daily/n?appid=${process.env.REACT_APP_WSUPER}&id=${param}&units=metric&cnt=8`
+    ;
+}

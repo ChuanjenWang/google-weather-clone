@@ -9,7 +9,7 @@ export const fetchTargetCityLocalTime = (lat, lng) => {
         axios.get(API_URL)
             .then(response => {
                 const payload = response.data.time; 
-                console.log(response);
+                //console.log(response);
                 dispatch(fetchTargetCityLocalTimeSuccess(payload));
             })
             .catch(err => {

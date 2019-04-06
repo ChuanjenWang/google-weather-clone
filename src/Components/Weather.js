@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { getWeekandTime, convertDegrees } from '../Util/weather';
+import { getWeekandTime, convertDegrees, formatWeathersDaily, getWeekName } from '../Util/weather';
 import { UpperPrefix } from '../Util/text';
 import WeatherInfo from './WeatherInfo';
 import WeatherIcon from './WeatherIcon';
 import WeatherDegrees from './WeatherDegrees';
 import WeatherMoreInfo from './WeatherMoreInfo';
+import WeatherForecastList from './WeatherForecastList';
 
 
 const Wraper = styled.div`
@@ -24,6 +25,9 @@ margin: 0 auto;
 const WrpaerInner = styled.div`
 padding: 20px 16px 24px 16px;
 flex:1;
+display: flex;
+flex-direction: column;
+align-content: space-between;
 `;
 
 const WeatherDetails = styled.div`
@@ -46,26 +50,125 @@ class Weather extends Component {
         super(props);
 
         this.state = {
-            unit: 'C'
+            city: '',
+            unit: 'C',
+            selForecastIndex: -1,
+            displayDt: '',
+            displayDes: '',
+            displayCode: '',
+            displayDeg: '',
+            clouds: '',
+            humidity: '',
+            wind: ''
         }
     }
 
     onChangeUnitHandler = (unit) => {
         if (unit !== this.state.unit) {
+            this.setState({unit})
+        }
+    }
+
+    onSelectForecastHandler = (index) => {
+        this.setState({
+            selForecastIndex: index,
+            displayDt: getWeekName(this.props.weathersDaily[index].weekIndex),
+            displayDes: this.props.weathersDaily[index].weather[0].description,
+            displayCode: this.props.weathersDaily[index].weather[0].id,
+            displayDeg: this.props.weathersDaily[index].temp.day,
+            clouds: this.props.weathersDaily[index].clouds,
+            humidity: this.props.weathersDaily[index].humidity,
+            wind: this.props.weathersDaily[index].speed,
+        });
+    }
+
+    getDisplayTime = () => {
+        return this.state.selForecastIndex < 0 ? 
+            getWeekandTime(this.props.currentDt) : 
+            this.state.displayDt;
+    }
+
+    getDescription = () => {
+        if (this.state.selForecastIndex < 0 ) {
+            return this.props.weathers.length > 0 ? UpperPrefix(this.props.weathers[0].weather[0].description) : null;
+        } else {
+            return UpperPrefix(this.state.displayDes);
+        }
+    }
+
+    getDegrees = () => {
+        if (this.state.selForecastIndex < 0) {
+            return this.props.weathers.length > 0 ? convertDegrees(this.state.unit, this.props.weathers[0].main.temp) : null;
+        } else {
+            return this.state.unit === 'C' ? Math.round(this.state.displayDeg) : 
+                    Math.round(Math.round(this.state.displayDeg) * 1.8 + 32);
+        }
+    }
+
+    getWeatherCode = () => {
+        if (this.state.selForecastIndex < 0) {
+            return this.props.weathers.length > 0 ? this.props.weathers[0].weather[0].id: null;
+        } else {
+            return this.state.displayCode;
+        }
+    }
+
+    getHumidity = () => {
+        if (this.state.selForecastIndex < 0) {
+            return this.props.weathers.length > 0 ? this.props.weathers[0].main.humidity: null;;
+        } else {
+            return this.state.humidity;
+        }
+    }
+
+    getClouds = () => {
+        if (this.state.selForecastIndex < 0) {
+            return this.props.weathers.length > 0 ? this.props.weathers[0].clouds.all: null;
+        } else {
+            return this.state.clouds;
+        }
+    }
+
+    getWind = () => {
+        if (this.state.selForecastIndex < 0) {
+            return this.props.weathers.length > 0 ? this.props.weathers[0].wind.speed: null;
+        } else {
+            return this.state.wind;
+        }
+    }
+    
+    componentWillUpdate() {
+        if(!this.state.city && this.props.state) {
             this.setState({
-                unit
+                city: this.props.city
             })
+        }
+
+        if (this.props.city !== this.state.city) {
+            this.setState({
+                city: this.props.city,
+                unit: 'C',
+                selForecastIndex: -1,
+                displayDt: '',
+                displayDes: '',
+                displayCode: '',
+                displayDeg: '',
+                clouds: '',
+                humidity: '',
+                wind: ''
+            });
         }
     }
 
     render() {
-        const displayTime = getWeekandTime(this.props.currentDt);
-        const description = this.props.weathers.length > 0 ? UpperPrefix(this.props.weathers[0].weather[0].description) : null;
-        const degrees = this.props.weathers.length > 0 ? convertDegrees(this.state.unit, this.props.weathers[0].main.temp) : null;
-        const code = this.props.weathers.length > 0 ? this.props.weathers[0].weather[0].id: null;
-        const humidity = this.props.weathers.length > 0 ? this.props.weathers[0].main.humidity: null;
-        const clouds = this.props.weathers.length > 0 ? this.props.weathers[0].clouds.all: null;
-        const wind = this.props.weathers.length > 0 ? this.props.weathers[0].wind.speed: null;
+        
+        const displayTime = this.getDisplayTime();
+        const description = this.getDescription();
+        const degrees = this.getDegrees();
+        const code = this.getWeatherCode();
+        const humidity = this.getHumidity();
+        const clouds = this.getClouds();
+        const wind = this.getWind();
         
         return (
             <div>
@@ -77,7 +180,10 @@ class Weather extends Component {
                         <WeatherDetails>
                             <WeatherDetailsLeft>
                                      <WeatherIcon code={code}
-                                                  des={description}/>
+                                                  des={description}
+                                                  width="64"
+                                                  height="64"
+                                                  marginTop="-5"/>
                                      <WeatherDegrees unit={this.state.unit} 
                                                      degrees={degrees}
                                                      clicked={(unit) => this.onChangeUnitHandler(unit)} /> 
@@ -85,9 +191,15 @@ class Weather extends Component {
                            <WeatherDetailsRight>
                                <WeatherMoreInfo humidity={humidity}
                                                 wind={wind}
-                                                clouds={clouds} />
+                                                clouds={clouds}
+                                                />
                            </WeatherDetailsRight>
                         </WeatherDetails>
+                        <WeatherForecastList sel={this.state.selForecastIndex}
+                                             clicked={this.onSelectForecastHandler}
+                                             list={formatWeathersDaily(this.props.weathersDaily)}
+                                             unit={this.state.unit}
+                        />
                     </WrpaerInner>
                 </Wraper>
             </div>
@@ -99,6 +211,7 @@ const mapStateToProps = (state) => {
     return {
         city: state.weather.city,
         weathers: state.weather.weathers,
+        weathersDaily: state.weather.weathersDaily,
         currentDt: state.geo.localdt
     }
 }
