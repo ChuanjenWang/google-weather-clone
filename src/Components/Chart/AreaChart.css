@@ -1,0 +1,10 @@
+.area {
+    /* stroke: #ffcd00;
+    stroke-width: 2px; */
+}
+
+.line {
+    stroke: #ffcd00;
+    stroke-width: 2px;
+    fill: none;
+}

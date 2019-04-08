@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { getWeekandTime, convertDegrees, formatWeathersDaily, getWeekName } from '../Util/weather';
+import { getWeekandTime, convertDegrees, formatWeathersDaily, getWeekName, formatWeathersDegreesChart } from '../Util/weather';
 import { UpperPrefix } from '../Util/text';
 import WeatherInfo from './WeatherInfo';
 import WeatherIcon from './WeatherIcon';
 import WeatherDegrees from './WeatherDegrees';
 import WeatherMoreInfo from './WeatherMoreInfo';
 import WeatherForecastList from './WeatherForecastList';
-
+import AreaChart from './Chart/AreaChart';
 
 const Wraper = styled.div`
 width: 632px;
@@ -136,7 +136,7 @@ class Weather extends Component {
             return this.state.wind;
         }
     }
-    
+
     componentWillUpdate() {
         if(!this.state.city && this.props.state) {
             this.setState({
@@ -195,6 +195,9 @@ class Weather extends Component {
                                                 />
                            </WeatherDetailsRight>
                         </WeatherDetails>
+                        <div>
+                            <AreaChart data={formatWeathersDegreesChart(this.props.weathers)} />
+                        </div>
                         <WeatherForecastList sel={this.state.selForecastIndex}
                                              clicked={this.onSelectForecastHandler}
                                              list={formatWeathersDaily(this.props.weathersDaily)}

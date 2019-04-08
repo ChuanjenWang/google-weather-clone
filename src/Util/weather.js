@@ -223,6 +223,17 @@ export const formatWeathersDaily = (list) => {
 
     return formatList.slice(0, 8);
 }
+export const formatWeathersDegreesChart = (list) => {
+    if(!list.length) return [];
+    const formatList = list.map((item) => {
+        return {
+            title: item.dt,
+            value: Math.round(item.main.temp - 273.15)
+        }
+    }); 
+
+    return formatList;
+}
 
 const getFormatTimeFromSec = (date) => {
     const hours = date.getHours(date);
