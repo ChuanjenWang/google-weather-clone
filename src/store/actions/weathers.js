@@ -13,7 +13,15 @@ export const fetchWeathers = (param, type)  => {
                     const payload = {
                         city: formatDisplayCityName(response.data.city),
                         list: response.data.list
-                    } 
+                    }
+                    //fix list to 39
+                    if (payload.list.length > 39) {
+                        payload.list.slice(0, 38);
+                    }else if (response.data.list.length < 39) {
+                        while (response.data.list.length < 39) {
+                            payload.list.push(payload.list[payload.list.length-1]);
+                        }
+                    }
                     dispatch(fetchWeathersSuccess(payload));
                     dispatch(fetchWeathersDaily(param, type));
                 } else if(response.cod === '404') {
