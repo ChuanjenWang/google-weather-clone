@@ -20,11 +20,13 @@ class Path extends Component {
         const { xScale, yScale } = scales;
 
         const line = d3.line()
-                        .x(d=> xScale(d.title))
+                        //.x(d=> xScale(d.title))
+                        .x((d, index)=> index * 72.1)
                         .y(d=> yScale(d.value))
 
         const area = d3.area()
-                        .x(d=> xScale(d.title))
+                        //.x(d=> xScale(d.title))
+                        .x((d, index)=> index * 72.1)
                         .y0(yHeight || 0)  
                         .y1(d=> yScale(d.value))
                         //.curve(d3.curveCatmullRom.alpha(0.2)) //curve 
