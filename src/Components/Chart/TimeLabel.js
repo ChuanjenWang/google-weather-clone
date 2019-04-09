@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Wraper = styled.div`
     height: 36px
-    width: 2736px    
+    width: 2808px    
     display: flex;
     flex-direction: row;
 `;
@@ -22,7 +22,7 @@ const TimeLabel = (props) => {
     const { data } = props;
     const timeBox = data.map((d, i) => {
         const dt = new Date(d.title * 1000);
-        const tmpHour = dt.getHours() - 1;
+        const tmpHour = dt.getHours();
         const label = tmpHour <= 12 ? tmpHour + 'AM': tmpHour - 12 + 'PM' ;
         return (
             <Box key={i}>

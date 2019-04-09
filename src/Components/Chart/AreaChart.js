@@ -9,6 +9,9 @@ import TimeLabel from './TimeLabel';
 
 const Wraper = styled.div`
 text-align: left;
+transform: translateX(0);
+${props => props.moveX !== 0 ? `transform: translateX(${props.moveX}px);` : `transform: translateX(0);`}
+transition: transform .3s linear 0s;
 `;
 
 class AreaChart extends Component {
@@ -16,7 +19,7 @@ class AreaChart extends Component {
     render() {
         const margins = { top: 20, right: 0, bottom: 0, left: 0 };
         const svgDimensions = { 
-            width: 2710,  //5175 
+            width: 2768,  // 2710 5175 
             height: 80 //Math.max(this.props.wraperHeight, 300) 
         };
         const maxValue = Math.max(...this.props.data.map(d => d.value));
@@ -36,7 +39,7 @@ class AreaChart extends Component {
         .range([yHeight, margins.top])
         
         return (
-            <Wraper>
+            <Wraper moveX={this.props.moveX}>
                 <svg width={svgDimensions.width} height={svgDimensions.height}>
                     <ChartLabel 
                         scales={{ xScale, yScale }}

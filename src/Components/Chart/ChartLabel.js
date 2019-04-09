@@ -2,11 +2,13 @@ import React from 'react';
 
 const ChartLabel = (props) => {
     const { scales, data } = props;
-    const { xScale, yScale } = scales;
+    const { yScale } = scales;
     
     const label = data.map((d, i) => {
         return (
-            <text x={xScale(d.title)}
+            <text 
+                  //x={xScale(d.title)}
+                  x= {i * 72.1}
                   y={yScale(d.value) - 8 }
                   fontSize="11"
                   fontWeight="800"

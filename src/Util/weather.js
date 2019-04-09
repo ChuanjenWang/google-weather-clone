@@ -37,6 +37,32 @@ export const getTimePeriod = () => {
     return period;
 }
 
+export const getCurrentPeriod = () => {
+    const dt = new Date();
+    const hour = dt.getHours();
+    let res = 1;
+
+    if (hour >= 2 && hour < 5) {
+        res = 1;
+    } else if (hour >= 5 && hour < 8) {
+        res = 2;
+    } else if (hour >=8 && hour < 11) {
+        res = 3;
+    } else if (hour >=11 && hour < 14) {
+        res = 4;
+    } else if (hour >=14 && hour < 17) {
+        res = 5;
+    } else if (hour >=17 && hour < 20) {
+        res = 6;
+    } else if (hour >=20 && hour < 23) {
+        res = 7;
+    } else {
+        res = 8;
+    }
+
+    return res;
+}
+
 export const getWeekandTime = (dateText) => {
     let res;
     const date = new Date(dateText);

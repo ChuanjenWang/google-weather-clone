@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { getWeekandTime, convertDegrees, formatWeathersDaily, getWeekName, formatWeathersDegreesChart } from '../Util/weather';
+import { getWeekandTime, 
+         convertDegrees, 
+         formatWeathersDaily, 
+         getWeekName, 
+         formatWeathersDegreesChart,
+         getCurrentPeriod } from '../Util/weather';
 import { UpperPrefix } from '../Util/text';
 import WeatherInfo from './WeatherInfo';
 import WeatherIcon from './WeatherIcon';
@@ -45,6 +50,19 @@ const WeatherDetailsRight = styled.div`
 display: flex;
 `; 
 
+const AreaChartWraper = styled.div`
+width: 596px;
+overflow: hidden;
+`
+const AreaCharNoData = styled.div`
+color: #878787 !important;
+font-weight: 600;
+letter-spacing: -1px;
+height: 60px;
+width: 100%;
+text-align: center;
+`
+
 class Weather extends Component {
     constructor(props) {
         super(props);
@@ -59,7 +77,8 @@ class Weather extends Component {
             displayDeg: '',
             clouds: '',
             humidity: '',
-            wind: ''
+            wind: '',
+            moveX: 0
         }
     }
 
@@ -70,6 +89,18 @@ class Weather extends Component {
     }
 
     onSelectForecastHandler = (index) => {
+        // 68px per period
+        const currentPeriod = getCurrentPeriod();
+        const threeHours = -72;
+        let moveX = 0;
+
+        //moveX = index * threeHours;
+        if(index === 1) {
+            moveX = (8 - currentPeriod) * threeHours;
+        } else if (index >1 && index < 5) {
+            moveX = (8 - currentPeriod) * threeHours + (threeHours * 8 - 0.5) * (index -1);
+        }
+    
         this.setState({
             selForecastIndex: index,
             displayDt: getWeekName(this.props.weathersDaily[index].weekIndex),
@@ -79,6 +110,7 @@ class Weather extends Component {
             clouds: this.props.weathersDaily[index].clouds,
             humidity: this.props.weathersDaily[index].humidity,
             wind: this.props.weathersDaily[index].speed,
+            moveX
         });
     }
 
@@ -134,6 +166,23 @@ class Weather extends Component {
             return this.props.weathers.length > 0 ? this.props.weathers[0].wind.speed: null;
         } else {
             return this.state.wind;
+        }
+    }
+
+    renderAreaChart = () => {
+        if (this.state.selForecastIndex >= -1 && this.state.selForecastIndex <= 4) {
+            return (
+                <AreaChart moveX={this.state.moveX}
+                data={formatWeathersDegreesChart(this.props.weathers)} />
+            )
+        } else {
+            return (
+                <div>
+                    <AreaCharNoData>
+                        No hourly forecast available.
+                    </AreaCharNoData>
+                </div>
+            )
         }
     }
 
@@ -195,9 +244,11 @@ class Weather extends Component {
                                                 />
                            </WeatherDetailsRight>
                         </WeatherDetails>
-                        <div>
-                            <AreaChart data={formatWeathersDegreesChart(this.props.weathers)} />
-                        </div>
+                        <AreaChartWraper>
+                            {/* <AreaChart moveX={this.state.moveX}
+                                       data={formatWeathersDegreesChart(this.props.weathers)} /> */}
+                            {this.renderAreaChart()}
+                        </AreaChartWraper>
                         <WeatherForecastList sel={this.state.selForecastIndex}
                                              clicked={this.onSelectForecastHandler}
                                              list={formatWeathersDaily(this.props.weathersDaily)}
