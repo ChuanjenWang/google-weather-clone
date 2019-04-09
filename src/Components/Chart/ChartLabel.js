@@ -5,6 +5,7 @@ const ChartLabel = (props) => {
     const { yScale } = scales;
     
     const label = data.map((d, i) => {
+        const degrees = props.unit === 'C' ? d.value : Math.round(d.value * 1.8 + 32);
         return (
             <text 
                   //x={xScale(d.title)}
@@ -14,7 +15,7 @@ const ChartLabel = (props) => {
                   fontWeight="800"
                   fill="#b5b5b5" 
                   key={i}
-            >{d.value}</text>
+            >{degrees}</text>
         )
     });
 

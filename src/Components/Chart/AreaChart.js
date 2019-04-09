@@ -45,6 +45,7 @@ class AreaChart extends Component {
                         scales={{ xScale, yScale }}
                         margins={margins}
                         data={this.props.data}
+                        unit={this.props.unit}
                     />
                     <Path className="area" 
                         type="area"

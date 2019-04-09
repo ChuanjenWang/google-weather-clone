@@ -176,7 +176,8 @@ class Weather extends Component {
         if (this.state.selForecastIndex >= -1 && this.state.selForecastIndex <= 4) {
             return (
                 <AreaChart moveX={this.state.moveX}
-                data={formatWeathersDegreesChart(this.props.weathers)} />
+                           data={formatWeathersDegreesChart(this.props.weathers)} 
+                           unit={this.state.unit}/>
             )
         } else {
             return (
