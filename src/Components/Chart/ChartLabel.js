@@ -1,4 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const Text = styled.text`
+cursor: pointer;
+`;
 
 const ChartLabel = (props) => {
     const { scales, data } = props;
@@ -7,7 +12,7 @@ const ChartLabel = (props) => {
     const label = data.map((d, i) => {
         const degrees = props.unit === 'C' ? d.value : Math.round(d.value * 1.8 + 32);
         return (
-            <text 
+            <Text onClick={props.chartLabelClicked.bind(this, i)}
                   //x={xScale(d.title)}
                   x= {i * 72.1}
                   y={yScale(d.value) - 8 }
@@ -15,7 +20,7 @@ const ChartLabel = (props) => {
                   fontWeight="800"
                   fill="#b5b5b5" 
                   key={i}
-            >{degrees}</text>
+            >{degrees}</Text>
         )
     });
 

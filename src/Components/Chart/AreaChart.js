@@ -46,6 +46,7 @@ class AreaChart extends Component {
                         margins={margins}
                         data={this.props.data}
                         unit={this.props.unit}
+                        chartLabelClicked={this.props.chartLabelClicked}
                     />
                     <Path className="area" 
                         type="area"

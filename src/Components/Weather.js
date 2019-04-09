@@ -74,6 +74,7 @@ class Weather extends Component {
             city: '',
             unit: 'C',
             selForecastIndex: -1,
+            selHourIndex: 0,
             displayDt: '',
             displayDes: '',
             displayCode: '',
@@ -117,14 +118,39 @@ class Weather extends Component {
         });
     }
 
+    onChartLabelClickedHandler = (index) => {
+        const dt = new Date(this.props.weathers[index].dt * 1000);
+        
+        dt.setHours(dt.getHours() - 1);
+
+        const displayDt = getWeekandTime(dt.toDateString() + ' ' + dt.toTimeString());
+        const displayDes = this.props.weathers[index].weather[0].description;
+        const displayCode = this.props.weathers[index].weather[0].id; 
+        const displayDeg = Math.round(this.props.weathers[index].main.temp - 273.15);
+        const clouds = this.props.weathers[index].clouds ? this.props.weathers[index].clouds.all : '0';
+        const humidity = this.props.weathers[index].main.humidity;
+        const wind = this.props.weathers[index].wind ? this.props.weathers[index].wind.speed : '0';
+
+        this.setState({
+            selHourIndex: index,
+            displayDt, 
+            displayDes,
+            displayCode,
+            displayDeg,
+            clouds,
+            humidity,
+            wind,
+        });
+    }
+
     getDisplayTime = () => {
-        return this.state.selForecastIndex < 0 ? 
+        return this.state.selForecastIndex < 0 && this.state.selHourIndex === 0 ? 
             getWeekandTime(this.props.currentDt) : 
             this.state.displayDt;
     }
 
     getDescription = () => {
-        if (this.state.selForecastIndex < 0 ) {
+        if (this.state.selForecastIndex < 0 && this.state.selHourIndex === 0 ) {
             return this.props.weathers.length > 0 ? UpperPrefix(this.props.weathers[0].weather[0].description) : null;
         } else {
             return UpperPrefix(this.state.displayDes);
@@ -132,7 +158,7 @@ class Weather extends Component {
     }
 
     getDegrees = () => {
-        if (this.state.selForecastIndex < 0) {
+        if (this.state.selForecastIndex < 0 && this.state.selHourIndex === 0) {
             return this.props.weathers.length > 0 ? convertDegrees(this.state.unit, this.props.weathers[0].main.temp) : null;
         } else {
             return this.state.unit === 'C' ? Math.round(this.state.displayDeg) : 
@@ -141,7 +167,7 @@ class Weather extends Component {
     }
 
     getWeatherCode = () => {
-        if (this.state.selForecastIndex < 0) {
+        if (this.state.selForecastIndex < 0 && this.state.selHourIndex === 0) {
             return this.props.weathers.length > 0 ? this.props.weathers[0].weather[0].id: null;
         } else {
             return this.state.displayCode;
@@ -149,7 +175,7 @@ class Weather extends Component {
     }
 
     getHumidity = () => {
-        if (this.state.selForecastIndex < 0) {
+        if (this.state.selForecastIndex < 0 && this.state.selHourIndex === 0) {
             return this.props.weathers.length > 0 ? this.props.weathers[0].main.humidity: null;;
         } else {
             return this.state.humidity;
@@ -157,7 +183,7 @@ class Weather extends Component {
     }
 
     getClouds = () => {
-        if (this.state.selForecastIndex < 0) {
+        if (this.state.selForecastIndex < 0 && this.state.selHourIndex === 0) {
             return this.props.weathers.length > 0 ? this.props.weathers[0].clouds.all: null;
         } else {
             return this.state.clouds;
@@ -165,7 +191,7 @@ class Weather extends Component {
     }
 
     getWind = () => {
-        if (this.state.selForecastIndex < 0) {
+        if (this.state.selForecastIndex < 0 && this.state.selHourIndex === 0) {
             return this.props.weathers.length > 0 ? this.props.weathers[0].wind.speed: null;
         } else {
             return this.state.wind;
@@ -177,7 +203,8 @@ class Weather extends Component {
             return (
                 <AreaChart moveX={this.state.moveX}
                            data={formatWeathersDegreesChart(this.props.weathers)} 
-                           unit={this.state.unit}/>
+                           unit={this.state.unit}
+                           chartLabelClicked={this.onChartLabelClickedHandler}/>
             )
         } else {
             return (
