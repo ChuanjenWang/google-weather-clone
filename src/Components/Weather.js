@@ -13,6 +13,7 @@ import WeatherInfo from './WeatherInfo';
 import WeatherIcon from './WeatherIcon';
 import WeatherDegrees from './WeatherDegrees';
 import WeatherMoreInfo from './WeatherMoreInfo';
+import WeatherSwitch from './WeatherSwitch';
 import WeatherForecastList from './WeatherForecastList';
 import AreaChart from './Chart/AreaChart';
 
@@ -48,6 +49,8 @@ display: flex;
 
 const WeatherDetailsRight = styled.div`
 display: flex;
+flex-direction: column;
+justify-content: flex-start;
 `; 
 
 const AreaChartWraper = styled.div`
@@ -242,6 +245,7 @@ class Weather extends Component {
                                                 wind={wind}
                                                 clouds={clouds}
                                                 />
+                                <WeatherSwitch />
                            </WeatherDetailsRight>
                         </WeatherDetails>
                         <AreaChartWraper>
