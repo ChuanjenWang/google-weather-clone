@@ -10,10 +10,15 @@ export const TIME_ZONE_API = (lat, lng) => {
 
 //WEATHER API
 export const WEATHER_API = (param, type='code') => {
-    return type === 'name' ? `http://api.openweathermap.org/data/2.5/forecast?&appid=${process.env.REACT_APP_WEATHER}}&q=${param}`
-    :
-    `http://api.openweathermap.org/data/2.5/forecast?id=${param}&appid=${process.env.REACT_APP_WEATHER}`
-    ;
+    switch (type) {
+        case 'name':
+            return `http://api.openweathermap.org/data/2.5/forecast?&appid=${process.env.REACT_APP_WEATHER}&q=${param}`
+        case 'location':
+            const arr = param.split(',');
+            return `http://api.openweathermap.org/data/2.5/forecast?&appid=${process.env.REACT_APP_WEATHER}&lat=${arr[0]}&lon=${arr[1]}`
+        default:
+            return `http://api.openweathermap.org/data/2.5/forecast?id=${param}&appid=${process.env.REACT_APP_WEATHER}`     
+    }
 } 
 
 //WEATHER API 

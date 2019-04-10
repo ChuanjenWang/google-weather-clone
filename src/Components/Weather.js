@@ -16,6 +16,7 @@ import WeatherMoreInfo from './WeatherMoreInfo';
 import WeatherSwitch from './WeatherSwitch';
 import WeatherForecastList from './WeatherForecastList';
 import AreaChart from './Chart/AreaChart';
+import Loader from './UI/loader';
 
 const Wraper = styled.div`
 width: 632px;
@@ -28,12 +29,27 @@ box-shadow: none;
 margin: 0 auto;
 `;
 
+const WraperLoading = styled.div`
+display: block;
+${props => props.loading ? null : `
+display: none;
+`}
+position: absolute;
+top: 50%;
+left: 45%;
+transform: translateX(-40%);
+transform: translateY(-50%);
+`;
+
 const WrpaerInner = styled.div`
 padding: 20px 16px 24px 16px;
 flex:1;
-display: flex;
 flex-direction: column;
 align-content: space-between;
+display: flex;
+${props => props.loading ? `
+display: none;` :
+ null}
 `;
 
 const WeatherDetails = styled.div`
@@ -82,7 +98,8 @@ class Weather extends Component {
             clouds: '',
             humidity: '',
             wind: '',
-            moveX: 0
+            moveX: 0,
+            loading: false
         }
     }
 
@@ -217,11 +234,13 @@ class Weather extends Component {
         }
     }
 
-    componentWillUpdate() {
-        if(!this.state.city && this.props.state) {
-            this.setState({
-                city: this.props.city
-            })
+    componentDidUpdate() {
+        if (this.state.loading && this.props.weathers.length) {
+            this.setState({loading: false});
+        }
+
+        if (!this.state.city && this.props.state) {
+            this.setState({city: this.props.city})
         }
 
         if (this.props.city !== this.state.city) {
@@ -240,8 +259,13 @@ class Weather extends Component {
         }
     }
 
+    componentDidMount() {
+        if (!this.props.weathers.length) {
+            this.setState({loading: true});
+        } 
+    }
+
     render() {
-        
         const displayTime = this.getDisplayTime();
         const description = this.getDescription();
         const degrees = this.getDegrees();
@@ -253,7 +277,10 @@ class Weather extends Component {
         return (
             <div>
                 <Wraper>
-                    <WrpaerInner>
+                    <WraperLoading loading={this.state.loading}>
+                        <Loader />
+                    </WraperLoading>
+                    <WrpaerInner loading={this.state.loading}>
                         <WeatherInfo city={this.props.city} 
                                      displayTime={displayTime}
                                      description={description}/>

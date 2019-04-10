@@ -12,18 +12,21 @@ export const fetchWeathers = (param, type)  => {
                 if (response.data.cod === '200') {
                     const payload = {
                         city: formatDisplayCityName(response.data.city),
+                        country: response.data.city.country,
+                        lat: response.data.city.coord.lat,
+                        lng: response.data.city.coord.lon,
                         list: response.data.list
                     }
                     //fix list to 39
                     if (payload.list.length > 39) {
-                        payload.list.slice(0, 38);
+                        payload.list = payload.list.slice(0, 39);
                     }else if (response.data.list.length < 39) {
                         while (response.data.list.length < 39) {
                             payload.list.push(payload.list[payload.list.length-1]);
                         }
                     }
                     dispatch(fetchWeathersSuccess(payload));
-                    dispatch(fetchWeathersDaily(param, type));
+                    dispatch(fetchWeathersDaily(param, type, 2));
                 } else if(response.cod === '404') {
                     // not found handling
                 }
@@ -39,7 +42,8 @@ export const fetchWeathersSuccess = payload => {
         payload: payload
     }
 }
-export const fetchWeathersDaily = (param, type) => {
+export const fetchWeathersDaily = (param, type, retry=0) => {
+    if (retry === 0) return;
     return dispatch => {
         const API_URL = WEATHER_DAILY_API(param, type);
 
@@ -60,6 +64,7 @@ export const fetchWeathersDaily = (param, type) => {
             })
             .catch(err => {
                 console.log('fetchDaily' + err);
+                dispatch(fetchWeathersDaily(param, type, retry -1));
             })
     }
 } 

@@ -87,15 +87,10 @@ const SuggestionPanel = styled.div`
 position: relative;
 width: 630px;
 margin: 0 auto;
-${props => props.status === 'open' ? 
- `
- opacity: 1;
 
- `
- : 
- `
- opacity: 0;
- `
+${props => props.status === 'open' ? 
+ `opacity: 1;`: 
+ `opacity: 0;`
 }
 `;
 
@@ -130,9 +125,7 @@ padding-buttom: 4px;
 const LiWraper = styled.div`
 ${props => props.selw === 't' ? 
 `background: #efefef
-`
-
-: 
+`: 
 `background: white`
 }
 `;
@@ -144,9 +137,7 @@ flex: auto;
 ${props => props.index === 0 ? 
  `border-top: 1px solid #dfe1e5;
  padding-top: 4px;
- `
- : 
- null
+ ` : null
 }
 `
 
@@ -157,10 +148,21 @@ class Search extends Component {
         this.state = {
             value: '',
             extend: false,
-            selectedLi: -1
+            selectedLi: -1,
+            lat: '',
+            lng: ''
         }
         this.dispatchChangedHandler = _.debounce(this.props.onFetchSuggestions, 500);
         //this.onClickHandler = this.onClickHandler.bind(this);
+    }
+
+    bindDefaultCity = () => {
+        const cityId = '1668341'; //Taipei
+        const lat = '25.0375';    //Taipei
+        const lng = '121.5637';   //Taipei
+        
+        this.props.onFetchWeathers(cityId);
+        this.props.onFetchTimeZone(lat, lng);
     }
     
     onChangedHandler = (e) => {
@@ -260,6 +262,7 @@ class Search extends Component {
     }
   
     componentDidMount() {
+        this.bindDefaultCity();
         this.nv.addEventListener('keydown', this.onKeyDownHandler);
         //this.setState({ extend: true });
     }

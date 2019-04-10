@@ -17,7 +17,7 @@ class Path extends Component {
 
     render() {
         const { scales, data, className, yHeight } = this.props;
-        const { xScale, yScale } = scales;
+        const { yScale } = scales;
 
         const line = d3.line()
                         //.x(d=> xScale(d.title))
