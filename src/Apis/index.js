@@ -1,23 +1,23 @@
 //CITY 
 export const CITY_API = (term) => {
-    return `http://api.geonames.org/searchJSON?q=${term}&maxRows=5&username=${process.env.REACT_APP_CITY}`;
+    return `https://api.geonames.org/searchJSON?q=${term}&maxRows=5&username=${process.env.REACT_APP_CITY}`;
 } 
 
 //TIME ZONE
 export const TIME_ZONE_API = (lat, lng) => {
-    return `http://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${process.env.REACT_APP_CITY}&style=full`;
+    return `https://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${process.env.REACT_APP_CITY}&style=full`;
 } 
 
 //WEATHER API
 export const WEATHER_API = (param, type='code') => {
     switch (type) {
         case 'name':
-            return `http://api.openweathermap.org/data/2.5/forecast?&appid=${process.env.REACT_APP_WEATHER}&q=${param}`
+            return `https://api.openweathermap.org/data/2.5/forecast?&appid=${process.env.REACT_APP_WEATHER}&q=${param}`
         case 'location':
             const arr = param.split(',');
-            return `http://api.openweathermap.org/data/2.5/forecast?&appid=${process.env.REACT_APP_WEATHER}&lat=${arr[0]}&lon=${arr[1]}`
+            return `https://api.openweathermap.org/data/2.5/forecast?&appid=${process.env.REACT_APP_WEATHER}&lat=${arr[0]}&lon=${arr[1]}`
         default:
-            return `http://api.openweathermap.org/data/2.5/forecast?id=${param}&appid=${process.env.REACT_APP_WEATHER}`     
+            return `https://api.openweathermap.org/data/2.5/forecast?id=${param}&appid=${process.env.REACT_APP_WEATHER}`     
     }
 } 
 
