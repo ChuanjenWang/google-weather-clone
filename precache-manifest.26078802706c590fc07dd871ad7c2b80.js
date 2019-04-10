@@ -8,19 +8,19 @@ self.__precacheManifest = [
     "url": "/google-weather-clone/static/js/runtime~main.350080c5.js"
   },
   {
-    "revision": "1153212985c4c2b74483",
-    "url": "/google-weather-clone/static/js/main.19cdfab9.chunk.js"
+    "revision": "de34cd1ccc8dc2f18b43",
+    "url": "/google-weather-clone/static/js/main.0b26da99.chunk.js"
   },
   {
     "revision": "5b3df7564a06804a8e4a",
     "url": "/google-weather-clone/static/js/2.3ccf9383.chunk.js"
   },
   {
-    "revision": "1153212985c4c2b74483",
+    "revision": "de34cd1ccc8dc2f18b43",
     "url": "/google-weather-clone/static/css/main.3de821ad.chunk.css"
   },
   {
-    "revision": "9b92e7fe78f799428922aab7d8097c13",
+    "revision": "a97ea75d4b46eb94a289a594873bdee6",
     "url": "/google-weather-clone/index.html"
   }
 ];
