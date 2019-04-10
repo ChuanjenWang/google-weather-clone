@@ -9,6 +9,7 @@ ${props => props.marginTop ? `margin-top: ${props.marginTop}px` : null}
 const IconImg = styled.img`
 width: 48px;
 height: 48px;
+
 ${props => props.width ? `width: ${props.width}px` : null}
 ${props => props.height ? `height: ${props.height}px` : null} 
 `;
@@ -22,6 +23,7 @@ const WeatherIcon = (props) => {
                      alt={props.des} 
                      width={props.width} 
                      height={props.height}
+                     code={props.code}
                     />
         </Wraper>
     )

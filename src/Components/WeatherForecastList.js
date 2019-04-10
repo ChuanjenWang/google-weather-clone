@@ -8,8 +8,8 @@ flex-direction: row;
 `;
 
 const WeatherForecastList = (props) => {
-    //console.log(props.list);
-    const list = props.list.map((item, index) => {
+    const initList = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    const list = props.list.length ? props.list.map((item, index) => {
         return (
             <WeatherForecastBox key={index} 
                                 sel={index===props.sel ? 'y': 'n'} 
@@ -25,7 +25,17 @@ const WeatherForecastList = (props) => {
                                             item.temp.min * 1.8 + 32}
                                 />
         )
-    })
+    }) : initList.map((item, index) => {
+        return (
+            <WeatherForecastBox key={index} 
+                                boxIndex={index}
+                                week={item}
+                                code="802"
+                                tempmax="0"
+                                tempmin="0" />
+        )
+    });
+
     return (
         <Wraper>
             {list}

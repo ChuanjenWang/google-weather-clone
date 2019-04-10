@@ -117,27 +117,38 @@ export const getImageFromWeatherCode = (code) => {
     switch (code) {
         case 500:
         case 501:
+        case '500':
+        case '501':
         iconName = 'rain_s_sunny.png';
         break;
         
         case 520:
         case 521:
         case 522:
+        case '520':
+        case '521':
+        case '522':
         iconName = 'rain_s_cloudy.png';
         break;
 
         case 615:
         case 616:
+        case '615':
+        case '616':
         iconName = 'snow_s_rain.png';
         break;
 
         case 801:
+        case '801':
         iconName = 'partly_cloudy.png';
         break;
 
         case 802:
         case 803:
         case 804:
+        case '802':
+        case '803':
+        case '804':
         iconName = 'cloudy.png';
         break;
 
