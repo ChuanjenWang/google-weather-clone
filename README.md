@@ -1,11 +1,14 @@
 # Google Weather React Clone
 
 Demo: [https://chuanjenwang.github.io/google-weather-clone/](https://chuanjenwang.github.io/google-weather-clone/)
-
-This project was built with [React v16.8.5](https://github.com/facebook/react) and [React D3 v5.9.2](https://react-d3-library.github.io/).<br><br>
-
-Weather data is come from [OpenWeatherMap.org/](https://openweathermap.org/)
 <br>
+<br>
+
+This project was built with [React v16.8.5](https://github.com/facebook/react) and [React D3 v5.9.2](https://react-d3-library.github.io/).<br>
+
+Weather data is come from [OpenWeatherMap](https://openweathermap.org/)
+<br>
+
 Let me know what you think! :)
 
 ## Features

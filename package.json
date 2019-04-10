@@ -2,6 +2,7 @@
   "name": "google-weather-clone",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://chuanjenwang.github.io/google-weather-clone",
   "dependencies": {
     "axios": "^0.18.0",
     "d3": "^5.9.2",
