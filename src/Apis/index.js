@@ -1,11 +1,13 @@
 //CITY 
 export const CITY_API = (term) => {
-    return `https://api.geonames.org/searchJSON?q=${term}&maxRows=5&username=${process.env.REACT_APP_CITY}`;
+    //return `http://api.geonames.org/searchJSON?q=${term}&maxRows=5&username=${process.env.REACT_APP_CITY}`;
+    return `https://secure.geonames.org/searchJSON?q=${term}&maxRows=5&username=${process.env.REACT_APP_CITY}`;
 } 
 
 //TIME ZONE
 export const TIME_ZONE_API = (lat, lng) => {
-    return `https://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${process.env.REACT_APP_CITY}&style=full`;
+    //return `http://api.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${process.env.REACT_APP_CITY}&style=full`;
+    return `https://secure.geonames.org/timezoneJSON?formatted=true&lat=${lat}&lng=${lng}&username=${process.env.REACT_APP_CITY}&style=full`;
 } 
 
 //WEATHER API
