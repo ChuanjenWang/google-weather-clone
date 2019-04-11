@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 import { DateTimeText } from '../../Util/text';
 
 const initialState = {
-    localdt: ''
+    localdt: '',
+    dstOffset: 0
 }
 
 const reducer = (state = initialState, action) => {
@@ -10,7 +11,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_TIMEZONE_SUCCUESS:
             return {
                 ...state,
-                localdt: action.payload
+                localdt: action.payload.time,
+                dstOffset: action.payload.dstOffset,
             }
         case actionTypes.FETCH_TIMEZONE_FAIL:
             const date = new Date();

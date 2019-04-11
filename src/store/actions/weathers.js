@@ -53,13 +53,14 @@ export const fetchWeathersDaily = (param, type, retry=0) => {
             })
             .then(response => {
                 //console.log('fetchDaily' + response.list);
-                const payload = response.list.map(item => {
-                    const dt = new Date(item.dt * 1000);
-                    return {
-                        ...item,
-                        weekIndex: dt.getDay()
-                    }
-                });
+                //const payload = response.list.map(item => {
+                //    const dt = new Date(item.dt * 1000);
+                //    return {
+                //        ...item,
+                //        weekIndex: dt.getDay()
+                //    }
+                //});
+                const payload = response.list;
                 dispatch(fetchWeathersDailySuccess(payload));
             })
             .catch(err => {

@@ -22,7 +22,14 @@ const TimeLabel = (props) => {
     const { data } = props;
     const timeBox = data.map((d, i) => {
         const dt = new Date(d.title * 1000);
-        const tmpHour = dt.getHours();
+        let tmpHour = dt.getUTCHours() + props.dstOffset;
+       
+        if(tmpHour < 0) {
+            tmpHour = tmpHour + 24;
+        } else if (tmpHour > 24) {
+            tmpHour = tmpHour - 24;
+        }
+
         const label = tmpHour <= 12 ? tmpHour + 'AM': tmpHour - 12 + 'PM' ;
         return (
             <Box key={i}>

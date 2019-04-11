@@ -138,7 +138,7 @@ class Weather extends Component {
     onChartLabelClickedHandler = (index) => {
         const dt = new Date(this.props.weathers[index].dt * 1000);
         
-        dt.setHours(dt.getHours() - 1);
+        dt.setHours(dt.getUTCHours() + this.props.dstOffset - 1);
 
         const displayDt = getWeekandTime(dt.toDateString() + ' ' + dt.toTimeString());
         const displayDes = this.props.weathers[index].weather[0].description;
@@ -221,7 +221,8 @@ class Weather extends Component {
                 <AreaChart moveX={this.state.moveX}
                            data={formatWeathersDegreesChart(this.props.weathers)} 
                            unit={this.state.unit}
-                           chartLabelClicked={this.onChartLabelClickedHandler}/>
+                           chartLabelClicked={this.onChartLabelClickedHandler}
+                           dstOffset={this.props.dstOffset}/>
             )
         } else {
             return (
@@ -325,7 +326,8 @@ const mapStateToProps = (state) => {
         city: state.weather.city,
         weathers: state.weather.weathers,
         weathersDaily: state.weather.weathersDaily,
-        currentDt: state.geo.localdt
+        currentDt: state.geo.localdt,
+        dstOffset: state.geo.dstOffset,
     }
 }
 

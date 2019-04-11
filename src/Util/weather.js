@@ -1,3 +1,5 @@
+//import moment from 'moment';
+
 export const getTimePeriod = () => {
     const _MS_PER_HOUR = 60 * 60 * 1000;
     const curDateTime = new Date();
@@ -251,7 +253,10 @@ export const convertListToEveryDay = (list, gmtOffset) =>  {
 export const formatWeathersDaily = (list) => {
     if(!list.length) return [];
     const formatList = list.map((item) => {
-        const week = getWeekName(item.weekIndex,'s');
+        const dt = new Date(item.dt * 1000);
+        const weekIndex = dt.getUTCDay();
+        const week = getWeekName(weekIndex,'s');
+
         return {
             ...item,
             week

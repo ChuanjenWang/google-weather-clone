@@ -152,7 +152,7 @@ class Search extends Component {
             lat: '',
             lng: ''
         }
-        this.dispatchChangedHandler = _.debounce(this.props.onFetchSuggestions, 500);
+        this.dispatchChangedHandler = _.debounce(this.props.onFetchSuggestions, 250);
         //this.onClickHandler = this.onClickHandler.bind(this);
     }
 

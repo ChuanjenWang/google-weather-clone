@@ -65,6 +65,7 @@ class AreaChart extends Component {
                 </svg>
                 <TimeLabel width={svgDimensions.width}
                            data={this.props.data}
+                           dstOffset={this.props.dstOffset}
                 />
             </Wraper>
         );
