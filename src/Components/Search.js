@@ -158,11 +158,11 @@ class Search extends Component {
 
     bindDefaultCity = () => {
         const cityId = '1668341'; //Taipei
-        const lat = '25.0375';    //Taipei
-        const lng = '121.5637';   //Taipei
+        //const lat = '25.0375';    //Taipei
+        //const lng = '121.5637'; {3}//Taipei
         
         this.props.onFetchWeathers(cityId);
-        this.props.onFetchTimeZone(lat, lng);
+        //this.props.onFetchTimeZone(lat, lng);
     }
     
     onChangedHandler = (e) => {
@@ -196,16 +196,23 @@ class Search extends Component {
 
     onClickHandler = (e) => {
         let key = e.currentTarget.getAttribute('data-param');
-        //console.log('key:' + key);
-        //console.log('this.state.selectedLi:' + this.state.selectedLi);
               
         if(this.state.selectedLi.toString() === key) {
         let tmpCity = this.props.suggestions[this.state.selectedLi];
         
         this.props.onFetchWeathers(tmpCity.cityCode);
-        this.props.onFetchTimeZone(tmpCity.lat, tmpCity.lng);
+        //this.props.onFetchTimeZone(tmpCity.lat, tmpCity.lng);
         this.props.onSetCityInfo(tmpCity.country, tmpCity.state);
         this.setState({ extend: false});
+        }
+    }
+
+    onQueryButtonClickHandler = (e) => {
+        //console.log(this.state.value);
+        if (this.state.value) {
+            this.props.onFetchWeathers(this.state.value, 'name');
+            //this.props.onFetchTimeZone(this.props.lat, this.props.lng);
+            this.setState({ extend: false});
         }
     }
 
@@ -250,14 +257,14 @@ class Search extends Component {
                 let tmpCity = this.props.suggestions[this.state.selectedLi];
                 
                 this.props.onFetchWeathers(tmpCity.cityCode);
-                this.props.onFetchTimeZone(tmpCity.lat, tmpCity.lng);
+                //this.props.onFetchTimeZone(tmpCity.lat, tmpCity.lng);
                 this.props.onSetCityInfo(tmpCity.country, tmpCity.state);
                
                 this.setState({ extend: false});
             }
             else if (cityName) {
                 this.props.onFetchWeathers(cityName, 'name');
-                this.props.onFetchTimeZone(this.props.lat, this.props.lng);
+                //this.props.onFetchTimeZone(this.props.lat, this.props.lng);
                 this.setState({ extend: false});
             }
         }
@@ -303,7 +310,7 @@ class Search extends Component {
                                      ref={elem => this.nv = elem}
                                      />  
                     </WraperText>
-                    <WraperIcon>
+                    <WraperIcon onClick={this.onQueryButtonClickHandler}>
                         <WraperIconInner>
                             <WraperIconInnerSVG>
                                 <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

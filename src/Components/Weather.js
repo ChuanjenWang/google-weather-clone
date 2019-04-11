@@ -224,9 +224,9 @@ class Weather extends Component {
                 result = `${this.props.city}, USA`;
             }
         } else if (this.props.countryCode === 'TW') {
-            result = `${this.props.city}`
+            result = `${this.props.city}`;
         } else {
-            result = `${this.props.city}, ${this.props.country}`;
+            result = this.props.country ? `${this.props.city}, ${this.props.country}` : `${this.props.city}, ${this.props.countryCode}`;
         }
         
         return result;

@@ -1,6 +1,7 @@
 import axios from 'axios'; 
 import fetchJsonp from 'fetch-jsonp';
 import * as actionTypes from './actionTypes';
+import * as actions from './index';
 import { WEATHER_API, WEATHER_DAILY_API } from '../../Apis/index';
 
 export const fetchWeathers = (param, type)  => {
@@ -26,6 +27,7 @@ export const fetchWeathers = (param, type)  => {
                         }
                     }
                     dispatch(fetchWeathersSuccess(payload));
+                    dispatch(actions.fetchTargetCityLocalTime(response.data.city.coord.lat, response.data.city.coord.lon));
                     dispatch(fetchWeathersDaily(param, type, 2));
                 } else if(response.cod === '404') {
                     // not found handling
