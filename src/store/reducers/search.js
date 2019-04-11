@@ -9,6 +9,8 @@ const initialState = {
         { cityName: 'Taichung', country: 'Taiwan', countryCode: 'TW', cityCode: '1668399', state: '',lng: '121.53185', lat:'25.04776'},
         { cityName: 'Kaohsiung', country: 'Taiwan', countryCode: 'TW', cityCode: '1673820', state: '',lng: '121.53185', lat:'25.04776'}
         ],
+    currentState: '',
+    currentCountry: '',
     fetching: false,
     showSuggestions: false
 };
@@ -26,6 +28,12 @@ const reducer = (state = initialState, action) => {
             suggestions: action.payload,
             fetching: false,
             showSuggestions: true
+        }
+        case actionTypes.SET_CITY_INFO:
+        return {
+            ...state,
+            currentState: action.payload.state,
+            currentCountry: action.payload.country,
         }
         default:
         return state;

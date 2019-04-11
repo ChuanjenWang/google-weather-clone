@@ -11,7 +11,7 @@ export const fetchWeathers = (param, type)  => {
             .then(response => {
                 if (response.data.cod === '200') {
                     const payload = {
-                        city: formatDisplayCityName(response.data.city),
+                        city: response.data.city.name,
                         country: response.data.city.country,
                         lat: response.data.city.coord.lat,
                         lng: response.data.city.coord.lon,
@@ -75,13 +75,5 @@ export const fetchWeathersDailySuccess = payload => {
         payload: payload
     }
 }
-const formatDisplayCityName = (city) => {
-    let res;
-    if (city.country === 'TW') {
-        res = city.name ;
-    } else {
-        res = city.name + ', ' + city.country;
-    }
-    return res;
-}
+
 

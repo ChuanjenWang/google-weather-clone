@@ -201,9 +201,10 @@ class Search extends Component {
               
         if(this.state.selectedLi.toString() === key) {
         let tmpCity = this.props.suggestions[this.state.selectedLi];
-              
+        
         this.props.onFetchWeathers(tmpCity.cityCode);
         this.props.onFetchTimeZone(tmpCity.lat, tmpCity.lng);
+        this.props.onSetCityInfo(tmpCity.country, tmpCity.state);
         this.setState({ extend: false});
         }
     }
@@ -250,6 +251,8 @@ class Search extends Component {
                 
                 this.props.onFetchWeathers(tmpCity.cityCode);
                 this.props.onFetchTimeZone(tmpCity.lat, tmpCity.lng);
+                this.props.onSetCityInfo(tmpCity.country, tmpCity.state);
+               
                 this.setState({ extend: false});
             }
             else if (cityName) {
@@ -257,7 +260,6 @@ class Search extends Component {
                 this.props.onFetchTimeZone(this.props.lat, this.props.lng);
                 this.setState({ extend: false});
             }
-            
         }
     }
   
@@ -337,7 +339,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchSuggestions: (term) => dispatch(actions.fetchSuggestions(term)),
         onFetchWeathers: (param, type) => dispatch(actions.fetchWeathers(param, type)),
-        onFetchTimeZone: (lat, lng) => dispatch(actions.fetchTargetCityLocalTime(lat, lng))
+        onFetchTimeZone: (lat, lng) => dispatch(actions.fetchTargetCityLocalTime(lat, lng)),
+        onSetCityInfo: (country, state) => dispatch(actions.setCurrentCityInfo(country, state)) 
     }
 }
 

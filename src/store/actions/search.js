@@ -35,3 +35,13 @@ export const fetchSuggestionsSuccess = (data) => {
         payload: data
     }
 }
+
+export const setCurrentCityInfo = (country, state) => {
+    return {
+        type: actionTypes.SET_CITY_INFO,
+        payload: {
+            country,
+            state
+        }
+    }
+}

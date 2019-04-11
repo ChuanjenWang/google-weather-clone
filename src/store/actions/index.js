@@ -1,6 +1,7 @@
 export {
     fetchSuggestions,
-    fetchSuggestionsSuccess
+    fetchSuggestionsSuccess,
+    setCurrentCityInfo
 } from './search';
 
 export {

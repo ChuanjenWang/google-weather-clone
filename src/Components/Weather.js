@@ -214,6 +214,23 @@ class Weather extends Component {
             return this.state.wind;
         }
     }
+    getDisplayCityName = () => {
+        let result = '';
+
+        if (this.props.countryCode === 'US') {
+            if (this.props.state) {
+                result = `${this.props.city}, ${this.props.state}, USA`;
+            } else {
+                result = `${this.props.city}, USA`;
+            }
+        } else if (this.props.countryCode === 'TW') {
+            result = `${this.props.city}`
+        } else {
+            result = `${this.props.city}, ${this.props.country}`;
+        }
+        
+        return result;
+    }
 
     renderAreaChart = () => {
         if (this.state.selForecastIndex >= -1 && this.state.selForecastIndex <= 4) {
@@ -274,6 +291,7 @@ class Weather extends Component {
         const humidity = this.getHumidity();
         const clouds = this.getClouds();
         const wind = this.getWind();
+        const displayCity = this.getDisplayCityName();
         
         return (
             <div>
@@ -282,7 +300,7 @@ class Weather extends Component {
                         <Loader />
                     </WraperLoading>
                     <WrpaerInner loading={this.state.loading}>
-                        <WeatherInfo city={this.props.city} 
+                        <WeatherInfo city={displayCity} 
                                      displayTime={displayTime}
                                      description={description}/>
                         <WeatherDetails>
@@ -324,6 +342,9 @@ class Weather extends Component {
 const mapStateToProps = (state) => {
     return {
         city: state.weather.city,
+        countryCode: state.weather.country,
+        country: state.search.currentCountry,
+        state: state.search.currentState,
         weathers: state.weather.weathers,
         weathersDaily: state.weather.weathersDaily,
         currentDt: state.geo.localdt,
