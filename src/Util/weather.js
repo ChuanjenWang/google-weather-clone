@@ -259,7 +259,8 @@ export const formatWeathersDaily = (list) => {
 
         return {
             ...item,
-            week
+            week,
+            weekIndex
         }
     }); 
 

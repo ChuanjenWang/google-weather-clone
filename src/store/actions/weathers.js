@@ -3,6 +3,7 @@ import fetchJsonp from 'fetch-jsonp';
 import * as actionTypes from './actionTypes';
 import * as actions from './index';
 import { WEATHER_API, WEATHER_DAILY_API } from '../../Apis/index';
+import {formatWeathersDaily} from '../../Util/weather';
 
 export const fetchWeathers = (param, type)  => {
     return async dispatch => {
@@ -53,8 +54,9 @@ export const fetchWeathersDaily = (param, type, retry=0) => {
             const response = await fetchJsonp(API_URL);
             const resJson = await response.json();
             const payload = resJson.list;
-    
-            dispatch(fetchWeathersDailySuccess(payload));
+            
+            
+            dispatch(fetchWeathersDailySuccess(formatWeathersDaily(payload)));
 
         } catch(err) {
             console.log('fetchDaily' + err);

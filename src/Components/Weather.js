@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { getWeekandTime, 
          convertDegrees, 
-         formatWeathersDaily, 
          getWeekName, 
          formatWeathersDegreesChart,
          getCurrentPeriod } from '../Util/weather';
@@ -121,7 +121,7 @@ class Weather extends Component {
         } else if (index >1 && index < 5) {
             moveX = (8 - currentPeriod) * threeHours + (threeHours * 8 - 0.5) * (index -1);
         }
-    
+        
         this.setState({
             selForecastIndex: index,
             displayDt: getWeekName(this.props.weathersDaily[index].weekIndex),
@@ -136,11 +136,12 @@ class Weather extends Component {
     }
 
     onChartLabelClickedHandler = (index) => {
-        const dt = new Date(this.props.weathers[index].dt * 1000);
+        const dtM = moment(this.props.weathers[index].dt * 1000);
         
-        dt.setHours(dt.getUTCHours() + this.props.dstOffset - 1);
-
-        const displayDt = getWeekandTime(dt.toDateString() + ' ' + dt.toTimeString());
+        dtM.utc();
+        dtM.add(this.props.dstOffset - 1,'h');
+        
+        const displayDt = dtM.format("dddd h:mm:ss A"); //getWeekandTime(dt.toDateString() + ' ' + dt.toTimeString());
         const displayDes = this.props.weathers[index].weather[0].description;
         const displayCode = this.props.weathers[index].weather[0].id; 
         const displayDeg = Math.round(this.props.weathers[index].main.temp - 273.15);
@@ -329,7 +330,7 @@ class Weather extends Component {
                         </AreaChartWraper>
                         <WeatherForecastList sel={this.state.selForecastIndex}
                                              clicked={this.onSelectForecastHandler}
-                                             list={formatWeathersDaily(this.props.weathersDaily)}
+                                             list={this.props.weathersDaily}
                                              unit={this.state.unit}
                         />
                     </WrpaerInner>
