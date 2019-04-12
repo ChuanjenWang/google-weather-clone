@@ -141,7 +141,7 @@ class Weather extends Component {
         dtM.utc();
         dtM.add(this.props.dstOffset - 1,'h');
         
-        const displayDt = dtM.format("dddd h:mm:ss A"); //getWeekandTime(dt.toDateString() + ' ' + dt.toTimeString());
+        const displayDt = dtM.format("dddd h:mm A"); //getWeekandTime(dt.toDateString() + ' ' + dt.toTimeString());
         const displayDes = this.props.weathers[index].weather[0].description;
         const displayCode = this.props.weathers[index].weather[0].id; 
         const displayDeg = Math.round(this.props.weathers[index].main.temp - 273.15);
