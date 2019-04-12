@@ -1,13 +1,13 @@
 {
   "main.css": "/google-weather-clone/static/css/main.3de821ad.chunk.css",
-  "main.js": "/google-weather-clone/static/js/main.699c1d38.chunk.js",
-  "main.js.map": "/google-weather-clone/static/js/main.699c1d38.chunk.js.map",
+  "main.js": "/google-weather-clone/static/js/main.a8cc5229.chunk.js",
+  "main.js.map": "/google-weather-clone/static/js/main.a8cc5229.chunk.js.map",
   "runtime~main.js": "/google-weather-clone/static/js/runtime~main.350080c5.js",
   "runtime~main.js.map": "/google-weather-clone/static/js/runtime~main.350080c5.js.map",
   "static/js/2.e7f5c08b.chunk.js": "/google-weather-clone/static/js/2.e7f5c08b.chunk.js",
   "static/js/2.e7f5c08b.chunk.js.map": "/google-weather-clone/static/js/2.e7f5c08b.chunk.js.map",
   "index.html": "/google-weather-clone/index.html",
-  "precache-manifest.6e64837c6371fea943e317d1b506e8a1.js": "/google-weather-clone/precache-manifest.6e64837c6371fea943e317d1b506e8a1.js",
+  "precache-manifest.3e5b6d866174f0c1930117b2912470ed.js": "/google-weather-clone/precache-manifest.3e5b6d866174f0c1930117b2912470ed.js",
   "service-worker.js": "/google-weather-clone/service-worker.js",
   "static/css/main.3de821ad.chunk.css.map": "/google-weather-clone/static/css/main.3de821ad.chunk.css.map",
   "static/media/sunny.png": "/google-weather-clone/static/media/sunny.0763f040.png"
